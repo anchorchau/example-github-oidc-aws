@@ -13,6 +13,9 @@ env:
 jobs:
   Read:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
     - run: |
         echo AWS_WEB_IDENTITY_TOKEN_FILE=${{ env.AWS_WEB_IDENTITY_TOKEN_FILE }} >> $GITHUB_ENV
