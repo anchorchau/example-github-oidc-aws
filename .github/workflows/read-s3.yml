@@ -21,4 +21,9 @@ jobs:
     
     - name: verify identity
       run: aws s3 ls
+      
+    - name: output info for further understanding
+      run: |
+        echo "action ID token request token = $ACTIONS_ID_TOKEN_REQUEST_TOKEN"
+        echo "action ID token request URL = $ACTIONS_ID_TOKEN_REQUEST_URL"
 
