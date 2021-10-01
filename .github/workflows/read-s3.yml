@@ -1,4 +1,4 @@
-name: Test via reading S3 content
+name: Test AWS Federation in Github Actions
 on: 
   push:
     paths-ignore:
@@ -7,7 +7,6 @@ on:
 env:
   AWS_ROLE_ARN: arn:aws:iam::385942912907:role/chautest_github_access
   AWS_WEB_IDENTITY_TOKEN_FILE: /tmp/awscreds
-  AWS_DEFAULT_OUTPUT: 'json'
   AWS_DEFAULT_REGION: 'ap-southeast-2'
 
 jobs:
@@ -17,13 +16,8 @@ jobs:
       id-token: write
       contents: read
     steps:
-    - run: 'curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r ".value" > $AWS_WEB_IDENTITY_TOKEN_FILE'
+    - name: Pass the GHA Bearer token into AWS_WEB_IDENTITY_TOKEN_FILE. I think...
+      run: 'curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r ".value" > $AWS_WEB_IDENTITY_TOKEN_FILE'
     
     - name: verify identity
-      run: aws s3 ls
-      
-    - name: output info for further understanding
-      run: |
-        echo "action ID token request token = $ACTIONS_ID_TOKEN_REQUEST_TOKEN"
-        echo "action ID token request URL = $ACTIONS_ID_TOKEN_REQUEST_URL"
-
+      run: aws s3 ls # or do whatever restricted access you provided
