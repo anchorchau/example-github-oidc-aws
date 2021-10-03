@@ -16,9 +16,12 @@ jobs:
       id-token: write
       contents: read
     steps:
-    - name: Pass the GHA Bearer token into AWS_WEB_IDENTITY_TOKEN_FILE. I think...
+    - name: Pass the GHA bearer token into AWS_WEB_IDENTITY_TOKEN_FILE. I think...
       run: 'curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r ".value" > $AWS_WEB_IDENTITY_TOKEN_FILE'
     
+    - name: Get my head around to understand what is inside the token file
+      run: cat $AWS_WEB_IDENTITY_TOKEN_FILE
+      
     - name: verify identity
       run: aws sts get-caller-identity # Review my AWS identity
 #       run: aws s3 ls # or do whatever restricted access you provided
