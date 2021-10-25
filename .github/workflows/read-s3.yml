@@ -7,6 +7,7 @@ on:
 env:
   AWS_ROLE_ARN: arn:aws:iam::385942912907:role/chautest_github_access
   AWS_DEFAULT_REGION: 'ap-southeast-2'
+  AWS_WEB_IDENTITY_TOKEN_FILE: /tmp/awscreds
 
 jobs:
   Read:
