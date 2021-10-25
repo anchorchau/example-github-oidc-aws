@@ -6,7 +6,6 @@ on:
 
 env:
   AWS_ROLE_ARN: arn:aws:iam::385942912907:role/chautest_github_access
-  AWS_WEB_IDENTITY_TOKEN_FILE: /tmp/awscreds
   AWS_DEFAULT_REGION: 'ap-southeast-2'
 
 jobs:
@@ -16,13 +15,13 @@ jobs:
       id-token: write
       contents: read
     steps:
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        role-to-assume: ${{ env.AWS_ROLE_ARN }}
-        aws-region: us-east-1
-    # - name: Pass the GHA bearer token into AWS_WEB_IDENTITY_TOKEN_FILE. I think...
-    #   run: 'curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r ".value" > $AWS_WEB_IDENTITY_TOKEN_FILE'
+    # - name: Configure AWS credentials
+    #   uses: aws-actions/configure-aws-credentials@v1
+    #   with:
+    #     role-to-assume: ${{ env.AWS_ROLE_ARN }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    - name: Pass the GHA bearer token into AWS_WEB_IDENTITY_TOKEN_FILE. I think...
+      run: 'curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r ".value" > $AWS_WEB_IDENTITY_TOKEN_FILE'
           
     - name: verify identity
       run: aws sts get-caller-identity # or some AWS action
