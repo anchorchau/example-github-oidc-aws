@@ -7,23 +7,18 @@ on:
 env:
   AWS_ROLE_ARN: arn:aws:iam::385942912907:role/chautest_github_access
   AWS_DEFAULT_REGION: 'ap-southeast-2'
-  AWS_WEB_IDENTITY_TOKEN_FILE: /tmp/awscreds
 
 jobs:
   Read:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      contents: read
     steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@master
       with:
         role-to-assume: ${{ env.AWS_ROLE_ARN }}
-        # role-session-name: $GITHUB_REPOSITORY
         aws-region: ${{ env.AWS_DEFAULT_REGION }}
-    # - name: Pass the GHA bearer token into AWS_WEB_IDENTITY_TOKEN_FILE. I think...
-    #   run: 'curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r ".value" > $AWS_WEB_IDENTITY_TOKEN_FILE'
           
     - name: verify identity
       run: aws sts get-caller-identity # or some AWS action
