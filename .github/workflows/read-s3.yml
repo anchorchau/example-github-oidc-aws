@@ -5,7 +5,7 @@ on:
     - 'README.md'
 
 env:
-  AWS_ROLE_ARN: arn:aws:iam::538713613814:role/Github_Federated_Access_Role
+  AWS_ROLE_ARN: arn:aws:iam::385942912907:role/chautest_github_access
   AWS_DEFAULT_REGION: 'ap-southeast-2'
 
 jobs:
@@ -17,32 +17,11 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
-
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@master
       with:
         role-to-assume: ${{ env.AWS_ROLE_ARN }}
         aws-region: ${{ env.AWS_DEFAULT_REGION }}
-    
-    - name: Upload to S3 --dryrun
-      run: |
-        aws s3 sync \
-        --acl public-read --follow-symlinks --delete --dryrun --sse AES256 \
-        . \
-        s3://sm-probono-frontend-bucket/who/qa-en
-    
-    - name: Upload to S3 - index.html with different caching --dryrun
-      run: |
-        aws s3 cp \
-        --acl public-read --follow-symlinks --cache-control "no-cache" --dryrun --sse AES256 \
-        $GITHUB_WORKSPACE/index.html \
-        s3://sm-probono-frontend-bucket/who/qa-en
-    
-    - name: Invalidate Cloudfront
-      run: |
-        aws cloudfront create-invalidation \
-        --distribution-id=E18DN7GJQWEP2J \
-        --paths '/*'
           
-    # - name: verify identity
-    #   run: aws sts get-caller-identity # or some AWS action
+    - name: verify identity
+      run: aws sts get-caller-identity # or some AWS action
