@@ -36,7 +36,7 @@ jobs:
         aws s3 sync \
         --acl public-read --follow-symlinks --cache-control "no-cache" --dryrun --sse AES256 \
         $GITHUB_WORKSPACE/index.html \
-        s3://sm-probono-frontend-bucket/who/qa-en
+        s3://sm-probono-frontend-bucket/who/qa-en/index.html
     
     - name: Invalidate Cloudfront
       run: |
