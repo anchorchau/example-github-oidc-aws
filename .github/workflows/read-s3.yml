@@ -31,15 +31,12 @@ jobs:
         . \
         s3://sm-probono-frontend-bucket/who/qa-en
     
-    - name: verify
-      run: ls -lrt $GITHUB_WORKSPACE
-
-    # - name: Upload to S3 - index.html with different caching --dryrun
-    #   run: |
-    #     aws s3 sync \
-    #     --acl public-read --follow-symlinks --cache-control "no-cache" --dryrun --sse AES256 \
-    #     $GITHUB_WORKSPACE/index.html \
-    #     s3://sm-probono-frontend-bucket/who/qa-en
+    - name: Upload to S3 - index.html with different caching --dryrun
+      run: |
+        aws s3 sync \
+        --acl public-read --follow-symlinks --cache-control "no-cache" --dryrun --sse AES256 \
+        $GITHUB_WORKSPACE/index.html \
+        s3://sm-probono-frontend-bucket/who/qa-en
     
     - name: Invalidate Cloudfront
       run: |
