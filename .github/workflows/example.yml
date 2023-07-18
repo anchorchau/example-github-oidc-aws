@@ -18,7 +18,7 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        role-to-assume: arn:aws:iam::385942912907:role/chautest_github_access # create your own IAM role.
+        role-to-assume: arn:aws:iam::123456789012:role/iam_role_name # create your own IAM role.
         aws-region: 'ap-southeast-2'
           
     - name: verify identity
